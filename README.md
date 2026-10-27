@@ -5,13 +5,13 @@ user-global and per-workspace — from a panel in the GUI's left sidebar.
 **English** | [简体中文](README.zh-CN.md)
 
 [![License](https://img.shields.io/github/license/icrefin/dsh-agent-prompt?style=flat-square)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/releases/tag/v0.1.0)
+[![Release](https://img.shields.io/github/v/release/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/releases/tag/v0.1.2)
 [![CI](https://img.shields.io/github/actions/workflow/status/icrefin/dsh-agent-prompt/ci.yml?branch=main&style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/actions/workflows/ci.yml)
 [![Last commit](https://img.shields.io/github/last-commit/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/commits/main)
 [![Stars](https://img.shields.io/github/stars/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/stargazers)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/pulls)
 [![Node](https://img.shields.io/badge/node-%3E%3D22.17-339933?style=flat-square&logo=node.js)](https://nodejs.org)
-[![dsh](https://img.shields.io/badge/dsh-0.2.0--rc.2-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
+[![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
 
 **Agent Prompt** — edit the `AGENTS.md` instruction files DeepSeek Harness
 actually loads, from a panel in the GUI's left sidebar.
@@ -50,6 +50,15 @@ bytes the agent will read next session.
 | `GET /api/agent-prompt/file?key=…` | read one instruction file |
 | `POST /api/agent-prompt/file` | write one instruction file, creating it and its directory when missing |
 
+Those are **host** paths and stay absolute; the panel asks for them relative to
+the document (`AGENT_PROMPT_CLIENT_API`, derived from `AGENT_PROMPT_API` by
+`clientPath()` in `src/protocol.ts`). The distinction matters wherever the client
+is not at the origin root: `dsh-remote-control` serves it at `/s/<sessionId>/`,
+and an absolute `/api/…` request would leave that prefix and be answered by its
+host — a `200 text/html` page that this panel would read as a body-less success
+because `request()` tolerates a non-JSON body. `test/protocol.spec.ts` resolves
+both forms against a mounted base to pin it.
+
 ## Which files it edits, and why those
 
 The host half resolves paths with the same rules as
@@ -85,7 +94,7 @@ Registrations, both keyed `agentPrompt`:
 | `main` | `key: 'agentPrompt'` | the page the row opens in the centre column |
 
 The page title carries the panel's version and the author credit — `Agent Prompt
-v0.1.0 Author: icrefin [icrefinai@gmail.com]` — as a muted tag beside the
+v0.1.2 Author: icrefin [icrefinai@gmail.com]` — as a muted tag beside the
 `20px/500` title, matching `dsh-skill-mgr` and `dsh-mcp-mgr`.
 
 Unlike those two, **the number is inlined into the browser bundle at build time**
@@ -154,10 +163,10 @@ profile.
 ```sh
 pnpm install
 pnpm build                              # tsc -> lib/, tsdown -> lib/client.js
-npm pack --pack-destination dist        # dist/dsh-agent-prompt-0.1.0.tgz
+npm pack --pack-destination dist        # dist/dsh-agent-prompt-0.1.2.tgz
 ```
 
-Then add `dist/dsh-agent-prompt-0.1.0.tgz` from the Plugins page. The bundle is
+Then add `dist/dsh-agent-prompt-0.1.2.tgz` from the Plugins page. The bundle is
 recorded in the profile's `dsh.profile.bundles` and its `cordis.patch.yml` insert
 row mounts the host half; the `dsh.client` manifest field loads the browser half.
 
@@ -256,7 +265,7 @@ running app.
 
 ## Verification
 
-Run on this host against dsh `0.2.0-rc.2` (desktop profile `desktop`).
+Run on this host against dsh `0.2.1-rc.3` (desktop profile `desktop`).
 
 | Check | Result |
 |---|---|
@@ -277,7 +286,9 @@ workspace → repository root, read of a missing file, unknown target key, unkno
 workspace, create-and-round-trip for both the global and workspace files, and the
 method fence. Nothing about the handler bodies is stubbed. `test/version.spec.ts`
 (2 tests) covers the one trap in the version module: it must stay importable where
-the build-time define is absent.
+the build-time define is absent. `test/protocol.spec.ts` (5 tests) resolves the
+panel's request paths against a root base and against a mounted one, which is the
+only check that would catch a request escaping a path prefix.
 
 Not covered by an automated test: an end-to-end write against the live host (the
 route tests write into a temporary directory instead, so no real `AGENTS.md` is

@@ -5,13 +5,13 @@
 [English](README.md) | **中文**
 
 [![License](https://img.shields.io/github/license/icrefin/dsh-agent-prompt?style=flat-square)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/releases/tag/v0.1.0)
+[![Release](https://img.shields.io/github/v/release/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/releases/tag/v0.1.2)
 [![CI](https://img.shields.io/github/actions/workflow/status/icrefin/dsh-agent-prompt/ci.yml?branch=main&style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/actions/workflows/ci.yml)
 [![Last commit](https://img.shields.io/github/last-commit/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/commits/main)
 [![Stars](https://img.shields.io/github/stars/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/stargazers)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/pulls)
 [![Node](https://img.shields.io/badge/node-%3E%3D22.17-339933?style=flat-square&logo=node.js)](https://nodejs.org)
-[![dsh](https://img.shields.io/badge/dsh-0.2.0--rc.2-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
+[![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
 
 **Agent Prompt** —— 在 GUI 左侧边栏的面板里，编辑 DeepSeek Harness 实际加载的
 `AGENTS.md` 指令文件。
@@ -49,6 +49,8 @@ DSH 会在每个会话开始时注入工作区指引，内容取自与 `AGENTS.m
 | `GET /api/agent-prompt/file?key=…` | 读取一个指令文件 |
 | `POST /api/agent-prompt/file` | 写入一个指令文件，文件或其目录缺失时一并创建 |
 
+这些是**宿主**路径，保持绝对形式；面板则相对文档去请求它们（`AGENT_PROMPT_CLIENT_API`，由 `src/protocol.ts` 里的 `clientPath()` 从 `AGENT_PROMPT_API` 派生）。客户端不是挂在源根时，这个区别才要紧：`dsh-remote-control` 把它伺服在 `/s/<sessionId>/` 下，而一个绝对 `/api/…` 请求会离开这个前缀、被它自己的宿主应答——那是一个 `200 text/html` 页面，而 `request()` 容忍非 JSON 响应体，所以这个面板会把它读成一次没有响应体的成功。`test/protocol.spec.ts` 对着一个挂载了 base 的地址解析这两种形式，把这个行为钉住。
+
 ## 它编辑哪些文件，以及为什么是这些
 
 宿主这一半用与加载这些文件的包
@@ -80,7 +82,7 @@ DSH 会在每个会话开始时注入工作区指引，内容取自与 `AGENTS.m
 | `sidebar.panellist` | `id: 'agentPrompt'`、`order: 11` | 那一行图标 |
 | `main` | `key: 'agentPrompt'` | 该行在中间栏打开的页面 |
 
-页面标题带着面板版本和作者署名——`Agent Prompt v0.1.0 Author: icrefin [icrefinai@gmail.com]`——作为 `20px/500` 标题旁的一枚弱化标签，与 `dsh-skill-mgr`、`dsh-mcp-mgr` 一致。
+页面标题带着面板版本和作者署名——`Agent Prompt v0.1.2 Author: icrefin [icrefinai@gmail.com]`——作为 `20px/500` 标题旁的一枚弱化标签，与 `dsh-skill-mgr`、`dsh-mcp-mgr` 一致。
 
 与那两个不同，**这个版本号是构建时内联进浏览器 bundle 的**，而不是从宿主取。
 一个插件的前后两半并不同步更新：浏览器 bundle 一旦 revision 变化就立刻被重新
@@ -143,10 +145,10 @@ textarea 自己够不到的那些。
 ```sh
 pnpm install
 pnpm build                              # tsc -> lib/, tsdown -> lib/client.js
-npm pack --pack-destination dist        # dist/dsh-agent-prompt-0.1.0.tgz
+npm pack --pack-destination dist        # dist/dsh-agent-prompt-0.1.2.tgz
 ```
 
-然后在 Plugins 页面添加 `dist/dsh-agent-prompt-0.1.0.tgz`。这个 bundle 会被记录
+然后在 Plugins 页面添加 `dist/dsh-agent-prompt-0.1.2.tgz`。这个 bundle 会被记录
 进 profile 的 `dsh.profile.bundles`，它的 `cordis.patch.yml` 插入行负责挂载宿主
 这一半；`dsh.client` manifest 字段则加载浏览器这一半。
 
@@ -238,7 +240,7 @@ node tools/preview.mjs --open                     # ...and opens the PNG
 
 ## 验证
 
-在本机针对 dsh `0.2.0-rc.2` 运行（桌面 profile `desktop`）。
+在本机针对 dsh `0.2.1-rc.3` 运行（桌面 profile `desktop`）。
 
 | 检查项 | 结果 |
 |---|---|
@@ -257,7 +259,8 @@ node tools/preview.mjs --open                     # ...and opens the PNG
 驱动它们：树形状、嵌套工作区 → 仓库根、读取不存在的文件、未知目标 key、未知
 工作区、全局与工作区文件的创建与往返读写，以及方法围栏。处理函数主体没有任何
 一处被桩掉。`test/version.spec.ts`（2 个测试）覆盖版本模块里唯一的那个坑：
-在构建期 define 缺席的地方，它必须仍然可 import。
+在构建期 define 缺席的地方，它必须仍然可 import。 `test/protocol.spec.ts`（5 个测试）把面板的请求路径
+分别对着源根 base 和挂载 base 解析，这是唯一能抓住请求逃出路径前缀的检查。
 
 没有自动化测试覆盖的部分：针对实机宿主的端到端写入（路由测试改为写进临时
 目录，所以不会碰到真实的 `AGENTS.md`），以及平台剪贴板快捷键——它们属于

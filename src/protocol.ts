@@ -14,6 +14,37 @@ export const AGENT_PROMPT_API = {
 } as const
 
 /**
+ * Re-express a host route as the panel must request it.
+ *
+ * A route beginning with `/` is origin-absolute, which is correct only while
+ * the client is served at the origin root. The client can also be mounted under
+ * a path prefix — `dsh-remote-control` serves it at `/s/<sessionId>/` — and an
+ * absolute request then escapes that mount. The prefix's own host answers for
+ * `/api/...` instead: through the relay that is its pairing page, a
+ * `200 text/html` body, which a JSON read reports as `Unexpected token '<'`
+ * rather than as an HTTP failure.
+ *
+ * Dropping the leading slash makes the request resolve against
+ * `document.baseURI`, which is how the harness's own channels address the host.
+ *
+ * @param route - a host route path from {@link AGENT_PROMPT_API}.
+ * @returns the same route, relative to the document.
+ */
+export function clientPath(route: string): string {
+  return route.replace(/^\//, '')
+}
+
+/**
+ * The {@link AGENT_PROMPT_API} routes as the panel requests them.
+ *
+ * Derived rather than re-typed, so the two halves cannot drift.
+ */
+export const AGENT_PROMPT_CLIENT_API = {
+  tree: clientPath(AGENT_PROMPT_API.tree),
+  file: clientPath(AGENT_PROMPT_API.file),
+} as const
+
+/**
  * The instruction file this plugin edits. DSH's agent-instructions loader also
  * accepts `CLAUDE.md` and the `.local` overlays; `AGENTS.md` is the base
  * candidate and the one this panel owns.

@@ -1,12 +1,15 @@
 /**
- * Thin fetch wrappers over the host's `/api/agent-prompt` routes. Every
+ * Thin fetch wrappers over the host's `/api/agent-prompt` routes, requested
+ * relative to the document (`AGENT_PROMPT_CLIENT_API`) so a mounted client —
+ * the remote-control tunnel serves it at `/s/<sessionId>/` — keeps reaching
+ * this host instead of whatever hosts that prefix. Every
  * failure is normalized to an `Error` carrying the host's own message, so the
  * panel can show something better than "request failed".
  *
  * @module dsh-agent-prompt/client/api
  */
 
-import { AGENT_PROMPT_API, type PromptFilePayload, type PromptTree } from '../protocol.ts'
+import { AGENT_PROMPT_CLIENT_API, type PromptFilePayload, type PromptTree } from '../protocol.ts'
 
 /** Perform one request and unwrap the JSON body or the error message. */
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
@@ -30,17 +33,17 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 
 /** Read the global + per-workspace instruction file tree. */
 export function fetchTree(): Promise<PromptTree> {
-  return request<PromptTree>(AGENT_PROMPT_API.tree)
+  return request<PromptTree>(AGENT_PROMPT_CLIENT_API.tree)
 }
 
 /** Read one instruction file. */
 export function fetchFile(key: string): Promise<PromptFilePayload> {
-  return request<PromptFilePayload>(`${AGENT_PROMPT_API.file}?key=${encodeURIComponent(key)}`)
+  return request<PromptFilePayload>(`${AGENT_PROMPT_CLIENT_API.file}?key=${encodeURIComponent(key)}`)
 }
 
 /** Write one instruction file; the response carries the fresh file state. */
 export function saveFile(key: string, content: string): Promise<PromptFilePayload> {
-  return request<PromptFilePayload>(AGENT_PROMPT_API.file, {
+  return request<PromptFilePayload>(AGENT_PROMPT_CLIENT_API.file, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ key, content }),
