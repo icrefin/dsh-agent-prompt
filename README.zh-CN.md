@@ -5,13 +5,13 @@
 [English](README.md) | **中文**
 
 [![License](https://img.shields.io/github/license/icrefin/dsh-agent-prompt?style=flat-square)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/releases/tag/v0.1.2)
+[![Release](https://img.shields.io/github/v/release/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/releases/tag/v0.1.3)
 [![CI](https://img.shields.io/github/actions/workflow/status/icrefin/dsh-agent-prompt/ci.yml?branch=main&style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/actions/workflows/ci.yml)
 [![Last commit](https://img.shields.io/github/last-commit/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/commits/main)
 [![Stars](https://img.shields.io/github/stars/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/stargazers)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/pulls)
 [![Node](https://img.shields.io/badge/node-%3E%3D22.17-339933?style=flat-square&logo=node.js)](https://nodejs.org)
-[![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
+[![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.5-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
 
 **Agent Prompt** —— 在 GUI 左侧边栏的面板里，编辑 DeepSeek Harness 实际加载的
 `AGENTS.md` 指令文件。
@@ -82,7 +82,7 @@ DSH 会在每个会话开始时注入工作区指引，内容取自与 `AGENTS.m
 | `sidebar.panellist` | `id: 'agentPrompt'`、`order: 11` | 那一行图标 |
 | `main` | `key: 'agentPrompt'` | 该行在中间栏打开的页面 |
 
-页面标题带着面板版本和作者署名——`Agent Prompt v0.1.2 Author: icrefin [icrefinai@gmail.com]`——作为 `20px/500` 标题旁的一枚弱化标签，与 `dsh-skill-mgr`、`dsh-mcp-mgr` 一致。
+页面标题带着面板版本和作者署名——`Agent Prompt v0.1.3 Author: icrefin [icrefinai@gmail.com]`——作为 `20px/500` 标题旁的一枚弱化标签，与 `dsh-skill-mgr`、`dsh-mcp-mgr` 一致。
 
 与那两个不同，**这个版本号是构建时内联进浏览器 bundle 的**，而不是从宿主取。
 一个插件的前后两半并不同步更新：浏览器 bundle 一旦 revision 变化就立刻被重新
@@ -240,7 +240,7 @@ node tools/preview.mjs --open                     # ...and opens the PNG
 
 ## 验证
 
-在本机针对 dsh `0.2.1-rc.3` 运行（桌面 profile `desktop`）。
+在本机针对 dsh `0.2.1-rc.5` 运行（桌面 profile `desktop`）。
 
 | 检查项 | 结果 |
 |---|---|

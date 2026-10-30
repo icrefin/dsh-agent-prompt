@@ -5,13 +5,13 @@ user-global and per-workspace — from a panel in the GUI's left sidebar.
 **English** | [简体中文](README.zh-CN.md)
 
 [![License](https://img.shields.io/github/license/icrefin/dsh-agent-prompt?style=flat-square)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/releases/tag/v0.1.2)
+[![Release](https://img.shields.io/github/v/release/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/releases/tag/v0.1.3)
 [![CI](https://img.shields.io/github/actions/workflow/status/icrefin/dsh-agent-prompt/ci.yml?branch=main&style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/actions/workflows/ci.yml)
 [![Last commit](https://img.shields.io/github/last-commit/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/commits/main)
 [![Stars](https://img.shields.io/github/stars/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/stargazers)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/pulls)
 [![Node](https://img.shields.io/badge/node-%3E%3D22.17-339933?style=flat-square&logo=node.js)](https://nodejs.org)
-[![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
+[![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.5-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
 
 **Agent Prompt** — edit the `AGENTS.md` instruction files DeepSeek Harness
 actually loads, from a panel in the GUI's left sidebar.
@@ -94,7 +94,7 @@ Registrations, both keyed `agentPrompt`:
 | `main` | `key: 'agentPrompt'` | the page the row opens in the centre column |
 
 The page title carries the panel's version and the author credit — `Agent Prompt
-v0.1.2 Author: icrefin [icrefinai@gmail.com]` — as a muted tag beside the
+v0.1.3 Author: icrefin [icrefinai@gmail.com]` — as a muted tag beside the
 `20px/500` title, matching `dsh-skill-mgr` and `dsh-mcp-mgr`.
 
 Unlike those two, **the number is inlined into the browser bundle at build time**
@@ -265,7 +265,7 @@ running app.
 
 ## Verification
 
-Run on this host against dsh `0.2.1-rc.3` (desktop profile `desktop`).
+Run on this host against dsh `0.2.1-rc.5` (desktop profile `desktop`).
 
 | Check | Result |
 |---|---|
