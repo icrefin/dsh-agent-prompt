@@ -1,18 +1,5 @@
 # dsh-agent-prompt
 
-Edit the `AGENTS.md` instruction files DeepSeek Harness actually loads —
-user-global and per-workspace — from a panel in the GUI's left sidebar.
-**English** | [简体中文](README.zh-CN.md)
-
-[![License](https://img.shields.io/github/license/icrefin/dsh-agent-prompt?style=flat-square)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/releases/tag/v0.1.3)
-[![CI](https://img.shields.io/github/actions/workflow/status/icrefin/dsh-agent-prompt/ci.yml?branch=main&style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/actions/workflows/ci.yml)
-[![Last commit](https://img.shields.io/github/last-commit/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/commits/main)
-[![Stars](https://img.shields.io/github/stars/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/stargazers)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/pulls)
-[![Node](https://img.shields.io/badge/node-%3E%3D22.17-339933?style=flat-square&logo=node.js)](https://nodejs.org)
-[![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.5-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
-
 **Agent Prompt** — edit the `AGENTS.md` instruction files DeepSeek Harness
 actually loads, from a panel in the GUI's left sidebar.
 
@@ -94,7 +81,7 @@ Registrations, both keyed `agentPrompt`:
 | `main` | `key: 'agentPrompt'` | the page the row opens in the centre column |
 
 The page title carries the panel's version and the author credit — `Agent Prompt
-v0.1.3 Author: icrefin [icrefinai@gmail.com]` — as a muted tag beside the
+v0.1.2 Author: icrefin [icrefinai@gmail.com]` — as a muted tag beside the
 `20px/500` title, matching `dsh-skill-mgr` and `dsh-mcp-mgr`.
 
 Unlike those two, **the number is inlined into the browser bundle at build time**
@@ -163,10 +150,10 @@ profile.
 ```sh
 pnpm install
 pnpm build                              # tsc -> lib/, tsdown -> lib/client.js
-npm pack --pack-destination dist        # dist/dsh-agent-prompt-0.1.2.tgz
+npm pack --pack-destination dist        # dist/dsh-agent-prompt-0.1.4.tgz
 ```
 
-Then add `dist/dsh-agent-prompt-0.1.2.tgz` from the Plugins page. The bundle is
+Then add `dist/dsh-agent-prompt-0.1.4.tgz` from the Plugins page. The bundle is
 recorded in the profile's `dsh.profile.bundles` and its `cordis.patch.yml` insert
 row mounts the host half; the `dsh.client` manifest field loads the browser half.
 
@@ -265,13 +252,13 @@ running app.
 
 ## Verification
 
-Run on this host against dsh `0.2.1-rc.5` (desktop profile `desktop`).
+Automated checks were re-run on this host against dsh `0.2.2-rc.1`; the live-host rows were captured on `0.2.1-rc.5` and the two seats they exercise (`main`, `sidebar.panellist`) still exist in 0.2.2-rc.1.
 
 | Check | Result |
 |---|---|
 | `pnpm typecheck` — host half | clean |
 | `pnpm typecheck` — client half | clean; both `slots.register` calls are checked against the real `SlotMap`, so the `main` and `sidebar.panellist` ids, and the `agentPrompt` locale namespace, are compile-time facts |
-| `vitest run` | **25/25 pass** |
+| `vitest run` | **30/30 pass** |
 | live host: `GET /api/agent-prompt/tree` | `200`, with the harness home resolved to `~/.dsh` and one node per registered workspace carrying its real `projectRoot` |
 | live client: Cordis Inspect `Slots` → `sidebar.panellist` | occupant `agentPrompt`, `order: 11`, `active: true` |
 | live client: Cordis Inspect `Slots` → `main` | occupant `agentPrompt`, `active: true` |
@@ -309,14 +296,6 @@ rather than to this plugin.
   panel's `$DSH_HOME || ~/.dsh` resolution. The shipped composition pins only
   `maxBytes`, so the two agree today.
 
-## Contributing
-
-Issues and pull requests are welcome — see [CONTRIBUTING.md](.github/CONTRIBUTING.md)
-for the development setup and the sign-off expectation. Please report security
-issues privately as described in [SECURITY.md](.github/SECURITY.md).
-
 ## License
 
 MIT — see [LICENSE](./LICENSE).
-
-> If this panel saves you a trip to an external editor, a ⭐ star helps other DSH users find it.

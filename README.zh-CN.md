@@ -10,7 +10,7 @@
 [![Last commit](https://img.shields.io/github/last-commit/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/commits/main)
 [![Stars](https://img.shields.io/github/stars/icrefin/dsh-agent-prompt?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/stargazers)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/icrefin/dsh-agent-prompt/pulls)
-[![Node](https://img.shields.io/badge/node-%3E%3D22.17-339933?style=flat-square&logo=node.js)](https://nodejs.org)
+[![Node](https://img.shields.io/badge/node-%3E%3D24.9-339933?style=flat-square&logo=node.js)](https://nodejs.org)
 [![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.5-4B5563?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
 
 **Agent Prompt** —— 在 GUI 左侧边栏的面板里，编辑 DeepSeek Harness 实际加载的
@@ -240,7 +240,7 @@ node tools/preview.mjs --open                     # ...and opens the PNG
 
 ## 验证
 
-在本机针对 dsh `0.2.1-rc.5` 运行（桌面 profile `desktop`）。
+在本机针对 dsh `0.2.2-rc.1` 运行（桌面 profile `desktop`）。
 
 | 检查项 | 结果 |
 |---|---|
