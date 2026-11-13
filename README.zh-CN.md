@@ -240,7 +240,7 @@ node tools/preview.mjs --open                     # ...and opens the PNG
 
 ## 验证
 
-在本机针对 dsh `0.2.2-rc.1` 运行（桌面 profile `desktop`）。
+在本机针对 dsh `0.2.2-rc.2` 运行（桌面 profile `desktop`）。
 
 | 检查项 | 结果 |
 |---|---|

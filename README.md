@@ -150,10 +150,10 @@ profile.
 ```sh
 pnpm install
 pnpm build                              # tsc -> lib/, tsdown -> lib/client.js
-npm pack --pack-destination dist        # dist/dsh-agent-prompt-0.1.4.tgz
+npm pack --pack-destination dist        # dist/dsh-agent-prompt-0.1.5.tgz
 ```
 
-Then add `dist/dsh-agent-prompt-0.1.4.tgz` from the Plugins page. The bundle is
+Then add `dist/dsh-agent-prompt-0.1.5.tgz` from the Plugins page. The bundle is
 recorded in the profile's `dsh.profile.bundles` and its `cordis.patch.yml` insert
 row mounts the host half; the `dsh.client` manifest field loads the browser half.
 
@@ -252,7 +252,7 @@ running app.
 
 ## Verification
 
-Automated checks were re-run on this host against dsh `0.2.2-rc.1`; the live-host rows were captured on `0.2.1-rc.5` and the two seats they exercise (`main`, `sidebar.panellist`) still exist in 0.2.2-rc.1.
+Automated checks were re-run on this host against dsh `0.2.2-rc.2`; the live-host rows were captured on `0.2.1-rc.5` and the two seats they exercise (`main`, `sidebar.panellist`) still exist in 0.2.2-rc.2.
 
 | Check | Result |
 |---|---|
